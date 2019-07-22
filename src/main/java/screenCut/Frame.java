@@ -93,10 +93,10 @@ public class Frame extends JFrame implements ActionListener {
         NextPageY = new JTextField(5);
         folderField = new JTextField(15);
 
-        snipBtn1  = new JButton("snipCover        ");
-        snipBtn2  = new JButton("snipFullColorPage");
-        snipBtn31 = new JButton("snipTextPageAPage");
-        snipBtn32 = new JButton("snipTextPageByTimes");
+        snipBtn1  = new JButton("  開始截首頁  ");
+        snipBtn2  = new JButton("  開始截彩頁  ");
+        snipBtn31 = new JButton("  開始截單頁  ");
+        snipBtn32 = new JButton("  開始截雙頁  ");
         times = new JTextField(5);
 
         catchBtn1.addActionListener(this);
@@ -219,6 +219,7 @@ public class Frame extends JFrame implements ActionListener {
         }finally {
             SINGLE = false;
             DOUBLE = false;
+            page = 1;
         }
     }
 
