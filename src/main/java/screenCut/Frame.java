@@ -14,13 +14,11 @@ public class Frame extends JFrame implements ActionListener {
     private JButton catchBtn2;
     private JButton catchBtn31;
     private JButton catchBtn32;
-    private JButton catchNextPage;
     private JLabel label1;
     private JLabel label2;
     private JLabel label31;
     private JLabel label32;
     private JLabel folderL;
-    private JLabel NextPage;
     private JTextField field11;
     private JTextField field12;
     private JTextField field13;
@@ -38,8 +36,6 @@ public class Frame extends JFrame implements ActionListener {
     private JTextField field323;
     private JTextField field324;
     private JTextField folderField;
-    private JTextField NextPageX;
-    private JTextField NextPageY;
     private JButton snipBtn1;
     private JButton snipBtn2;
     private JButton snipBtn31;
@@ -48,7 +44,6 @@ public class Frame extends JFrame implements ActionListener {
     private BufferedImage get;
     private int ButtonListen = 0;
     private int SnipListen = 0;
-    private int nextPageListen = 0;
     private int page = 1;
     int maxX,maxY,minX,minY;
     Boolean SINGLE = false;
@@ -66,13 +61,11 @@ public class Frame extends JFrame implements ActionListener {
         catchBtn2 = new JButton("getCoordinate");
         catchBtn31 = new JButton("getCoordinate");
         catchBtn32 = new JButton("getCoordinate");
-        catchNextPage = new JButton("抓下一頁座標");
         label1  = new JLabel("封面              ");
         label2  = new JLabel("全彩頁          ");
         label31 = new JLabel("單數頁          ");
         label32 = new JLabel("雙數頁          ");
         folderL = new JLabel("資料夾");
-        NextPage = new JLabel("下一頁");
         field11 = new JTextField(5);//startx
         field12 = new JTextField(5);//starty
         field13 = new JTextField(5);//endx
@@ -89,8 +82,6 @@ public class Frame extends JFrame implements ActionListener {
         field322 = new JTextField(5);
         field323 = new JTextField(5);
         field324 = new JTextField(5);
-        NextPageX = new JTextField(5);
-        NextPageY = new JTextField(5);
         folderField = new JTextField(15);
 
         snipBtn1  = new JButton("  開始截首頁  ");
@@ -107,7 +98,6 @@ public class Frame extends JFrame implements ActionListener {
         snipBtn2.addActionListener(this);
         snipBtn31.addActionListener(this);
         snipBtn32.addActionListener(this);
-        catchNextPage.addActionListener(this);
 
         panel1.add(label1);
         panel1.add(field11);
@@ -140,10 +130,6 @@ public class Frame extends JFrame implements ActionListener {
         panel1.add(times);
         panel1.add(folderL);
         panel1.add(folderField);
-        panel1.add(NextPage);
-        panel1.add(NextPageX);
-        panel1.add(NextPageY);
-        panel1.add(catchNextPage);
 
         this.getContentPane().add(panel1,BorderLayout.CENTER);
         this.setSize(500,250);
@@ -173,36 +159,29 @@ public class Frame extends JFrame implements ActionListener {
             SnipListen = 3 ;
         }else if (source == snipBtn32) {
             SnipListen = 4 ;
-        }else if (source == catchNextPage) {
-            nextPageListen = 1 ;
-            doStart();
         }
-        if(nextPageListen == 0){
-
-            if(ButtonListen > 0)
-                doStart();
-            else if ( SnipListen ==1 || SnipListen ==2 ){
-                if (SnipListen == 1 ) {
-                    maxX = Math.max(Integer.valueOf(field11.getText()), Integer.valueOf(field13.getText()));
-                    maxY = Math.max(Integer.valueOf(field12.getText()), Integer.valueOf(field14.getText()));
-                    minX = Math.min(Integer.valueOf(field11.getText()), Integer.valueOf(field13.getText()));
-                    minY = Math.min(Integer.valueOf(field12.getText()), Integer.valueOf(field14.getText()));
-                }else if (SnipListen == 2 ){
-                    maxX = Math.max(Integer.valueOf(field21.getText()), Integer.valueOf(field23.getText()));
-                    maxY = Math.max(Integer.valueOf(field22.getText()), Integer.valueOf(field24.getText()));
-                    minX = Math.min(Integer.valueOf(field21.getText()), Integer.valueOf(field23.getText()));
-                    minY = Math.min(Integer.valueOf(field22.getText()), Integer.valueOf(field24.getText()));
-                }
-                snip( maxX, maxY, minX ,minY,1);
-            }else if (SnipListen == 3 ){
-                SINGLE = true;
-                initPrint();
-
-            }else if ( SnipListen == 4 ){
-                DOUBLE = true;
-                initPrint();
-
+        if(ButtonListen > 0)
+            doStart();
+        else if ( SnipListen ==1 || SnipListen ==2 ){
+            if (SnipListen == 1 ) {
+                maxX = Math.max(Integer.valueOf(field11.getText()), Integer.valueOf(field13.getText()));
+                maxY = Math.max(Integer.valueOf(field12.getText()), Integer.valueOf(field14.getText()));
+                minX = Math.min(Integer.valueOf(field11.getText()), Integer.valueOf(field13.getText()));
+                minY = Math.min(Integer.valueOf(field12.getText()), Integer.valueOf(field14.getText()));
+            }else if (SnipListen == 2 ){
+                maxX = Math.max(Integer.valueOf(field21.getText()), Integer.valueOf(field23.getText()));
+                maxY = Math.max(Integer.valueOf(field22.getText()), Integer.valueOf(field24.getText()));
+                minX = Math.min(Integer.valueOf(field21.getText()), Integer.valueOf(field23.getText()));
+                minY = Math.min(Integer.valueOf(field22.getText()), Integer.valueOf(field24.getText()));
             }
+            snip( maxX, maxY, minX ,minY,1);
+        }else if (SnipListen == 3 ){
+            SINGLE = true;
+            initPrint();
+
+        }else if ( SnipListen == 4 ){
+            DOUBLE = true;
+            initPrint();
         }
     }
 
@@ -265,11 +244,12 @@ public class Frame extends JFrame implements ActionListener {
             e.printStackTrace();
         }finally {
 //            this.setVisible(true);
-            robot.mouseMove( Integer.valueOf(NextPageX.getText()),Integer.valueOf(NextPageY.getText()));
             if(finish == 1){
 //                System.out.println("6666");
                 robot.mousePress(InputEvent.BUTTON1_MASK);
-                robot.mouseRelease(InputEvent.BUTTON1_MASK);
+                robot.mouseRelease(InputEvent.BUTTON1_MASK);//切換程式forcus
+                robot.keyPress(KeyEvent.VK_PAGE_DOWN);
+                robot.keyRelease(KeyEvent.VK_PAGE_DOWN);//真正換頁
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -306,7 +286,6 @@ public class Frame extends JFrame implements ActionListener {
         this.setVisible(true);
         ButtonListen = 0;
         SnipListen = 0;
-        nextPageListen = 0;
     }
     private class Temp extends JPanel implements MouseListener, MouseMotionListener {
         Integer x;
@@ -511,15 +490,7 @@ public class Frame extends JFrame implements ActionListener {
             tempY=me.getY();
 //            System.out.println(""+me.getXOnScreen());
 //            System.out.println(""+me.getYOnScreen());
-            if(nextPageListen == 0){
-                fillPressed(me);
-            }else if(nextPageListen == 1){
-                x = me.getXOnScreen();
-                y = me.getYOnScreen();
-                NextPageX.setText(x.toString());
-                NextPageY.setText(y.toString());
-                updates();
-            }
+            fillPressed(me);
         }
 
         public void mouseReleased(MouseEvent me){
@@ -566,14 +537,6 @@ public class Frame extends JFrame implements ActionListener {
         }
 
         public void mouseClicked(MouseEvent me){
-//            System.out.println(me.getXOnScreen() + "," + me.getYOnScreen());
-            if(me.getClickCount()==1){
-                x = me.getXOnScreen();
-                y = me.getYOnScreen();
-                NextPageX.setText(x.toString());
-                NextPageY.setText(y.toString());
-                updates();
-            }
         }
 
 
