@@ -52,7 +52,6 @@ public class Frame extends JFrame implements ActionListener {
         super("螢幕擷取軟體");
         initWindow();
     }
-
     private void initWindow() {
 
         panel1 = new JPanel();
@@ -84,6 +83,15 @@ public class Frame extends JFrame implements ActionListener {
         field324 = new JTextField(5);
         folderField = new JTextField(15);
 
+//F11全螢幕，漫畫截單頁 0, 195, 1080, 1726
+        field11.setText("0");
+        field12.setText("195");
+        field13.setText("1080");
+        field14.setText("1726");
+        field311.setText("0");
+        field312.setText("195");
+        field313.setText("1080");
+        field314.setText("1726");
         snipBtn1  = new JButton("  開始截首頁  ");
         snipBtn2  = new JButton("  開始截彩頁  ");
         snipBtn31 = new JButton("  開始截單頁  ");
