@@ -16,6 +16,7 @@ public class Frame extends JFrame implements ActionListener {
     private JButton catchBtn32;
     private JLabel label1;
     private JLabel label2;
+    private JLabel labelPage;
     private JLabel label31;
     private JLabel label32;
     private JLabel folderL;
@@ -41,6 +42,7 @@ public class Frame extends JFrame implements ActionListener {
     private JButton snipBtn31;
     private JButton snipBtn32;
     private JTextField times;
+    private JTextField pagesField;
     private BufferedImage get;
     private int ButtonListen = 0;
     private int SnipListen = 0;
@@ -65,6 +67,7 @@ public class Frame extends JFrame implements ActionListener {
         label31 = new JLabel("單數頁          ");
         label32 = new JLabel("雙數頁          ");
         folderL = new JLabel("資料夾");
+        labelPage = new JLabel("頁數");
         field11 = new JTextField(5);//startx
         field12 = new JTextField(5);//starty
         field13 = new JTextField(5);//endx
@@ -82,6 +85,7 @@ public class Frame extends JFrame implements ActionListener {
         field323 = new JTextField(5);
         field324 = new JTextField(5);
         folderField = new JTextField(15);
+        pagesField = new JTextField(10);
 
 //F11全螢幕，漫畫截單頁 0, 195, 1080, 1726
         field11.setText("0");
@@ -89,9 +93,11 @@ public class Frame extends JFrame implements ActionListener {
         field13.setText("1080");
         field14.setText("1726");
         field311.setText("0");
-        field312.setText("195");
+        field312.setText("150");
         field313.setText("1080");
-        field314.setText("1726");
+        field314.setText("1771");
+        pagesField.setText("1");
+
         snipBtn1  = new JButton("  開始截首頁  ");
         snipBtn2  = new JButton("  開始截彩頁  ");
         snipBtn31 = new JButton("  開始截單頁  ");
@@ -138,6 +144,8 @@ public class Frame extends JFrame implements ActionListener {
         panel1.add(times);
         panel1.add(folderL);
         panel1.add(folderField);
+        panel1.add(labelPage);
+        panel1.add(pagesField);
 
         this.getContentPane().add(panel1,BorderLayout.CENTER);
         this.setSize(500,250);
@@ -207,6 +215,7 @@ public class Frame extends JFrame implements ActionListener {
             SINGLE = false;
             DOUBLE = false;
             page = 1;
+            pagesField.setText(String.valueOf(page));
         }
     }
 
@@ -234,7 +243,11 @@ public class Frame extends JFrame implements ActionListener {
     }
 
     public void snip( int maxx,int maxy,int minx,int miny, int finish){
-
+        try{
+            page = Integer.valueOf(pagesField.getText());
+        }catch (Exception e){
+            page = 1;
+        }
         Robot robot = null;
         try {
             if(true) {
@@ -244,10 +257,11 @@ public class Frame extends JFrame implements ActionListener {
             robot = new Robot();
             Rectangle rect = new Rectangle(minx, miny, maxx-minx, maxy-miny);
             BufferedImage image = robot.createScreenCapture(rect);
-            String path = "D:/"+folderField.getText();
+            String path = "D:/待上傳/"+folderField.getText();
             File dir = new File(path);
             dir.mkdir();
             ImageIO.write(image, "png", new File(path + "/" + page++ + ".png"));
+            pagesField.setText(String.valueOf(page));
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
