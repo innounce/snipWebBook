@@ -216,6 +216,8 @@ public class Frame extends JFrame implements ActionListener {
             DOUBLE = false;
             page = 1;
             pagesField.setText(String.valueOf(page));
+
+            this.setVisible(true);
         }
     }
 
@@ -268,8 +270,8 @@ public class Frame extends JFrame implements ActionListener {
 //            this.setVisible(true);
             if(finish == 1){
 //                System.out.println("6666");
-                robot.mousePress(InputEvent.BUTTON1_MASK);
-                robot.mouseRelease(InputEvent.BUTTON1_MASK);//切換程式forcus
+//                robot.mousePress(InputEvent.BUTTON1_MASK);
+//                robot.mouseRelease(InputEvent.BUTTON1_MASK);//切換程式forcus
                 robot.keyPress(KeyEvent.VK_PAGE_DOWN);
                 robot.keyRelease(KeyEvent.VK_PAGE_DOWN);//真正換頁
                 try {
@@ -278,8 +280,6 @@ public class Frame extends JFrame implements ActionListener {
                     e.printStackTrace();
                 }
             }
-
-            this.setVisible(true);
         }
     }
 
