@@ -165,16 +165,12 @@ public class Frame extends JFrame implements ActionListener {
             ButtonListen = 2 ;
         }else if (source == catchBtn31) {
             ButtonListen = 3 ;
-        }else if (source == catchBtn32) {
-            ButtonListen = 4 ;
         }else if (source == snipBtn1) {
             SnipListen = 1 ;
         } else if (source == snipBtn2) {
             SnipListen = 2 ;
         }else if (source == snipBtn31) {
             SnipListen = 3 ;
-        }else if (source == snipBtn32) {
-            SnipListen = 4 ;
         }
         if(ButtonListen > 0)
             doStart();
@@ -195,9 +191,6 @@ public class Frame extends JFrame implements ActionListener {
             SINGLE = true;
             initPrint();
 
-        }else if ( SnipListen == 4 ){
-            DOUBLE = true;
-            initPrint();
         }
     }
 
@@ -213,7 +206,6 @@ public class Frame extends JFrame implements ActionListener {
             print();
         }finally {
             SINGLE = false;
-            DOUBLE = false;
             page = 1;
             pagesField.setText(String.valueOf(page));
 
@@ -222,24 +214,11 @@ public class Frame extends JFrame implements ActionListener {
     }
 
     private void print() {
-
         maxX = Math.max(Integer.valueOf(field311.getText()), Integer.valueOf(field313.getText()));
         maxY = Math.max(Integer.valueOf(field312.getText()), Integer.valueOf(field314.getText()));
         minX = Math.min(Integer.valueOf(field311.getText()), Integer.valueOf(field313.getText()));
         minY = Math.min(Integer.valueOf(field312.getText()), Integer.valueOf(field314.getText()));
-//        System.out.println("SINGLE == " + SINGLE);
-//        System.out.println("DOUBLE == " + DOUBLE);
-//        System.out.println("開始截單數頁");
         if(SINGLE){
-            snip( maxX, maxY, minX, minY, 1);
-        }
-        else if(DOUBLE){
-            snip( maxX, maxY, minX, minY, 0);
-            maxX = Math.max(Integer.valueOf(field321.getText()), Integer.valueOf(field323.getText()));
-            maxY = Math.max(Integer.valueOf(field322.getText()), Integer.valueOf(field324.getText()));
-            minX = Math.min(Integer.valueOf(field321.getText()), Integer.valueOf(field323.getText()));
-            minY = Math.min(Integer.valueOf(field322.getText()), Integer.valueOf(field324.getText()));
-//            System.out.println("開始截雙數頁");
             snip( maxX, maxY, minX, minY, 1);
         }
     }
@@ -267,11 +246,10 @@ public class Frame extends JFrame implements ActionListener {
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-//            this.setVisible(true);
+            this.setVisible(true);
             if(finish == 1){
-//                System.out.println("6666");
-//                robot.mousePress(InputEvent.BUTTON1_MASK);
-//                robot.mouseRelease(InputEvent.BUTTON1_MASK);//切換程式forcus
+                robot.mousePress(InputEvent.BUTTON1_MASK);
+                robot.mouseRelease(InputEvent.BUTTON1_MASK);//切換程式forcus
                 robot.keyPress(KeyEvent.VK_PAGE_DOWN);
                 robot.keyRelease(KeyEvent.VK_PAGE_DOWN);//真正換頁
                 try {
